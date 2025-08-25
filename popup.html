@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeGuard Browser</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 380px;
+            min-height: 450px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            padding: 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .shield-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 2px 10px rgba(76, 175, 80, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .main-content {
+            padding: 20px;
+        }
+        
+        .status-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .status-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .risk-display {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .risk-circle {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 28px;
+            font-weight: bold;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+        
+        .risk-safe { 
+            background: linear-gradient(45deg, #4CAF50, #81C784);
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+        }
+        
+        .risk-low { 
+            background: linear-gradient(45deg, #FFC107, #FFD54F);
+            box-shadow: 0 5px 20px rgba(255, 193, 7, 0.4);
+        }
+        
+        .risk-medium { 
+            background: linear-gradient(45deg, #FF9800, #FFB74D);
+            box-shadow: 0 5px 20px rgba(255, 152, 0, 0.4);
+        }
+        
+        .risk-high { 
+            background: linear-gradient(45deg, #F44336, #EF5350);
+            box-shadow: 0 5px 20px rgba(244, 67, 54, 0.4);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .risk-level-text {
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        
+        .risk-score-text {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .website-info {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .website-url {
+            font-size: 14px;
+            word-break: break-all;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .scan-time {
+            font-size: 11px;
+            opacity: 0.7;
+        }
+        
+        .risk-factors {
+            margin-top: 15px;
+        }
+        
+        .factors-header {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .factor-list {
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        
+        .factor-item {
+            background: rgba(255, 71, 87, 0.2);
+            border-left: 3px solid #ff4757;
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .factor-icon {
+            width: 18px;
+            height: 18px;
+            background: #ff4757;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: white;
+        }
+        
+        .settings-panel {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .settings-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        
+        .setting-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 28px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-switch.active {
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+        }
+        
+        .toggle-knob {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(0);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toggle-switch.active .toggle-knob {
+            transform: translateX(24px);
+        }
+        
+        .loading-screen {
+            text-align: center;
+            padding: 50px 20px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .no-data-screen {
+            text-align: center;
+            padding: 40px 20px;
+            opacity: 0.8;
+            font-size: 14px;
+        }
+        
+        .refresh-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .refresh-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .api-status {
+            font-size: 10px;
+            opacity: 0.6;
+            text-align: center;
+            padding: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .api-connected {
+            color: #4CAF50;
+        }
+        
+        /* Scrollbar styling */
+        .factor-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .factor-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .factor-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <div class="logo">
+            <div class="shield-icon">🛡️</div>
+            SafeGuard Browser
+        </div>
+        <div class="subtitle">Real-time Website Security Analysis</div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Loading Screen -->
+        <div id="loadingScreen" class="loading-screen">
+            <div class="loading-spinner"></div>
+            <div>Analyzing website security...</div>
+            <div style="font-size: 11px; margin-top: 10px; opacity: 0.6;">
+                Powered by Google Safe Browsing
+            </div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div id="mainContent" style="display: none;">
+            <!-- Security Status Card -->
+            <div class="status-card">
+                <div class="risk-display">
+                    <div id="riskCircle" class="risk-circle risk-safe">
+                        <span id="riskScore">0.0</span>
+                    </div>
+                    <div id="riskLevelText" class="risk-level-text">Secure</div>
+                    <div class="risk-score-text">Risk Score: <span id="detailedScore">0.0/10</span></div>
+                </div>
+                
+                <div class="website-info">
+                    <div id="websiteUrl" class="website-url">Loading...</div>
+                    <div id="scanTime" class="scan-time">Last scanned: Just now</div>
+                </div>
+                
+                <!-- Risk Factors Section -->
+                <div id="riskFactorsSection" class="risk-factors" style="display: none;">
+                    <div class="factors-header">
+                        ⚠️ Security Issues Detected
+                    </div>
+                    <div id="factorsList" class="factor-list"></div>
+                </div>
+            </div>
+            
+            <!-- Settings Panel
+            <div class="settings-panel">
+                <div class="settings-title">
+                    ⚙️ Protection Settings
+                </div>
+                
+                <div class="setting-row">
+                    <span>Enable Protection</span>
+                    <div class="toggle-switch active" data-setting="extensionEnabled">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+                
+                <div class="setting-row">
+                    <span>Block Dangerous Sites</span>
+                    <div class="toggle-switch active" data-setting="blockMalicious">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+                
+                <div class="setting-row">
+                    <span>Show Security Warnings</span>
+                    <div class="toggle-switch active" data-setting="showWarnings">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+                
+                <div class="setting-row">
+                    <span>Activity Logging</span>
+                    <div class="toggle-switch active" data-setting="logActivity">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        
+        <!-- No Data Screen -->
+        <div id="noDataScreen" class="no-data-screen" style="display: none;">
+            <div>🔍</div>
+            <div style="margin: 15px 0;">No security data available</div>
+            <div style="font-size: 12px; opacity: 0.7; margin-bottom: 15px;">
+                Navigate to a website to see security analysis
+            </div>
+            <button class="refresh-button" onclick="refreshData()">
+                🔄 Refresh Analysis
+            </button>
+        </div>
+    </div>
+    
+    <!-- API Status Footer -->
+    <div class="api-status">
+        <span class="api-connected">● Google Safe Browsing API Connected</span>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

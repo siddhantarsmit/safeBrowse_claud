@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "SafeGuard Browser Extension",
+  "version": "1.0.0",
+  "description": "Advanced safe browsing extension that detects website risk scores using Google Safe Browsing API",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs",
+    "webNavigation"
+  ],
+  "host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "SafeGuard Browser"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["warning.html"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
