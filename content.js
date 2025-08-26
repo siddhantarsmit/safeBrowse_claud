@@ -88,9 +88,9 @@
                         ${createFactorsHTML(riskData.factors)}
                         
                         <div class="safeguard-warning-actions">
-                            <button class="safeguard-btn safeguard-btn-primary" onclick="window.safeguardGoBack()">
+                            <a href="www.google.com"> <button class="safeguard-btn safeguard-btn-primary" onclick="window.safeguardGoBack()" >
                                 🔙 Go Back to Safety
-                            </button>
+                            </button></a>
                             <button class="safeguard-btn safeguard-btn-secondary" onclick="window.safeguardContinue()">
                                 Continue with Caution
                             </button>
